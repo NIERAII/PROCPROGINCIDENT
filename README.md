@@ -1,6 +1,7 @@
 # PROCPROGINCIDENT
 **I HATE WORKING**  
 This repo is basically my procedural programming ~~home~~work  
+Also, these are just bare files, without the project itself, so yeah, deal with it.
   
 **Feel free to steal it**  
 *But at least change smth a lil bit*
