@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <fstream>
 #include <string>
+#include <algorithm>
 using namespace std;
 float ln(float x) {
     //https://ru.wikipedia.org/wiki/%D0%9D%D0%B0%D1%82%D1%83%D1%80%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%BB%D0%BE%D0%B3%D0%B0%D1%80%D0%B8%D1%84%D0%BC
@@ -180,8 +181,8 @@ int main()
         float S, p, n;
         cout << "S, p, n\n";
         cin >> S >> p >> n;
-        float r = p / 100;
-        float m = S * r * pow((1 + r), n) / 12 * (pow((1 + r), n) - 1);
+        float r = p / 100.0;
+        float m = ((S * r * pow(1 + r, n) / (12 * ((pow(1 + r, n) - 1)))));
 
         if (isnan(m) or isinf(m)) {
             cout << "Invalid\n\n";
@@ -190,11 +191,26 @@ int main()
             cout << m << "\n\n";
         }
 
-        cout << "Task3\n\n";
+        cout << "Task2\n\n";
+        float m0 = ((S * r * pow(1 + r, n) / (12 * ((pow(1 + r, n) - 1)))));
+
+        for (int p = 1; p <= 100; p++) {
+            r = p / 100.0;
+            m = S * r * pow((1 + r), n) / 12 * (pow((1 + r), n) - 1);
+
+            double kewurhwei = 1.0 / 100;
+
+            if (abs(m - m0) < 1) {
+                cout << m << "\n\n";
+                break;
+            }
+        }
+
+        cout << "Task3+4\n\n";
 
         ofstream file("hahabino.txt");
 
-        file << "Hello, world! 0839";
+        file << "Hello world 839";
 
         file.close();
 
@@ -205,21 +221,40 @@ int main()
         getline(readFile, contents);
 
         char arr[50];
-
         strcpy_s(arr, contents.c_str());
-
-        for (char i : arr)
-        {
-            if (47 < static_cast<int>(i) < 59) {
-                cout << "\nnum " << static_cast<int>(i) - '0' << endl;
+        cout << arr;
+        cout << "\n";
+        int i1 = 0;
+        for (char i : arr) {
+            if (i1 < contents.length()) {
+                if (0 < (i - '0') && (i - '0') < 10) {
+                    cout << (i - '0');
+                }
             }
+            i1++;
         }
-
-        cout << contents << endl;
 
         readFile.close();
 
- 
+        cout << "Task5\n\n";
+                
+            string input;
+            string alphabet;
+            ifstream fin("HW35.txt");
+            ofstream file_content("HW35.txt");
+            cin >> input;
+            file_content << input;
+            fin.close();
+            file_content.close();
+            for (char ch : input) {
+                if (isdigit(ch) == 0)
+                    alphabet.push_back(ch);
+            }
+            sort(alphabet.begin(), alphabet.end());
+            cout << alphabet << "\n";
+        
+
+
     }
     else { cout << "There is no such HW"; }
 }
