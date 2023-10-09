@@ -192,19 +192,23 @@ int main()
         }
 
         cout << "Task2\n\n";
-        float m0 = ((S * r * pow(1 + r, n) / (12 * ((pow(1 + r, n) - 1)))));
+
+        float m0;
+        cout << "S, m, n\n";
+        cin >> S >> m0 >> n;
+
+        //float m0 = ((S * r * pow(1 + r, n) / (12 * ((pow(1 + r, n) - 1)))));
 
         for (int p = 1; p <= 100; p++) {
             r = p / 100.0;
-            m = S * r * pow((1 + r), n) / 12 * (pow((1 + r), n) - 1);
+            m = ((S * r * pow(1 + r, n) / (12 * ((pow(1 + r, n) - 1)))));
 
-            double kewurhwei = 1.0 / 100;
 
             if (abs(m - m0) < 1) {
-                cout << m << "\n\n";
                 break;
             }
         }
+        cout << p << "\n\n";
 
         cout << "Task3+4\n\n";
 
@@ -236,23 +240,21 @@ int main()
 
         readFile.close();
 
-        cout << "Task5\n\n";
-                
-            string input;
-            string alphabet;
-            ifstream fin("HW35.txt");
-            ofstream file_content("HW35.txt");
-            cin >> input;
-            file_content << input;
-            fin.close();
-            file_content.close();
-            for (char ch : input) {
-                if (isdigit(ch) == 0)
-                    alphabet.push_back(ch);
-            }
-            sort(alphabet.begin(), alphabet.end());
-            cout << alphabet << "\n";
-        
+        cout << "\n\nTask5\n\n";
+
+        string input;
+        string alphabet;
+
+        cin >> input;
+
+
+        for (char ch : input) {
+            if (isdigit(ch) == 0)
+                alphabet.push_back(ch);
+        }
+        sort(alphabet.begin(), alphabet.end());
+        cout << alphabet << "\n";
+
 
 
     }
