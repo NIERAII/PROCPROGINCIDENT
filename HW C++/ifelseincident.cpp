@@ -46,13 +46,15 @@ void drawGraph() {
     int x;
 
     for (x = 0; x < WIDTHs; x++) {
+
         y = sin(2 * 3.14159 * x / WIDTHs);
 
         int plotY = (int)((y + 1) * 0.5 * HEIGHTs);
 
-        setCursorPosition(x, plotY);
+        setCursorPosition(x, plotY + 52);
         cout << '*';
     }
+    setCursorPosition(0, 80);
 }
 
 
@@ -95,6 +97,62 @@ int romanToInt(string s) {
 
     return result;
 }
+
+
+void genSeq(int m, int i, int c) {
+    int S = i;
+
+    S = (m * S + i) % c;
+    cout << S << " ";
+
+    cout << endl;
+}
+
+
+int convertDigit(char digit) {
+    if (digit >= '0' && digit <= '9') {
+        return digit - '0';
+    }
+    else {
+        return 10 + digit - 'A';
+    }
+}
+
+char convertToNewBase(int digit) {
+    if (digit >= 0 && digit <= 9) {
+        return '0' + digit;
+    }
+    else {
+        return 'A' + (digit - 10);
+    }
+}
+
+string convertNumber(const string& number, int oldBase, int newBase) {
+    int decimal = 0;
+    int power = 1;
+
+    // Convert the number to decimal
+    for (int i = number.length() - 1; i >= 0; i--) {
+        int digit = convertDigit(number[i]);
+        decimal += digit * power;
+        power *= oldBase;
+    }
+
+    string result = "";
+
+    // Convert the decimal number to new base representation
+    while (decimal > 0) {
+        int digit = decimal % newBase;
+        result += convertToNewBase(digit);
+        decimal /= newBase;
+    }
+
+    // Reverse the result to get the correct order
+    reverse(result.begin(), result.end());
+
+    return result;
+}
+
 
 int main()
 {
@@ -349,13 +407,13 @@ int main()
 
             int number;
             for (int i = 0; i < 10; i++) {
-               cin >> number;
-                file << number <<endl; // записываем число в файл
+                cin >> number;
+                file << number << endl; // записываем число в файл
             }
 
             file.close(); // закрываем файл
 
-           ifstream inputFile("numbers.txt"); // открываем файл для чтения
+            ifstream inputFile("numbers.txt"); // открываем файл для чтения
 
             if (inputFile.is_open()) {
                 int sum = 0;
@@ -367,14 +425,14 @@ int main()
 
                 inputFile.close(); // закрываем файл
 
-               cout << "Addition result: " << sum <<endl << endl;
+                cout << "Addition result: " << sum << endl << endl;
             }
             else {
-               cout << "Err." <<endl << endl;
+                cout << "Err." << endl << endl;
             }
         }
         else {
-           cout << "Err." <<endl << endl;
+            cout << "Err." << endl << endl;
         }
 
         cout << "Task2\n\n";
@@ -382,7 +440,7 @@ int main()
         cout << "Int1\n";
         cin >> input;
         cout << sign(input) << endl << endl;
-        
+
         cout << "Task3\n\n";
 
         int choice;
@@ -419,7 +477,7 @@ int main()
         }
 
         cout << "S: " << result << endl << endl;
-        
+
         cout << "Task4\n\n";
         int numStars = 36;
         int numStripes = 8;
@@ -455,8 +513,94 @@ int main()
 
         int arabicNumeral = romanToInt(romanNumeral);
 
-        cout << "Arabic Number: " << arabicNumeral << endl;
+        cout << "Arabic Number: \n\n" << arabicNumeral << endl;
 
+        cout << "Task7\n\n";
+
+        int m1 = 37, i1 = 3, c1 = 64;
+        int m2 = 25173, i2 = 13849, c2 = 65537;
+
+        cout << "Variant 1: ";
+        genSeq(m1, i1, c1);
+
+        cout << "Variant 2: ";
+        genSeq(m2, i2, c2);
+
+        cout << "\n\nTask8\n\n";
+
+        float A[3][4]{ {5,  2, 0, 10},
+                       {3,  5, 2, 5},
+                       {20, 0, 0, 0} };
+
+        float B[4][2]{ {1.2, 0.5},
+                       {2.8, 0.4},
+                       {5,   1},
+                       {2,   1.5} };
+
+        float C[3][2]{ {0, 0},
+                       {0, 0},
+                       {0, 0} };
+
+        cout << "\n \n";
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 2; col++) {
+                for (int res = 0; res < 4; res++) { //Переменная res используется во вложенном цикле для выполнения итераций по каждому элементу результирующей матрицы C. В данном случае, 
+                    //res итерируется от 0 до 3, чтобы умножить каждый элемент строки матрицы A на соответствующий элемент столбца матрицы B и получить конечное значение для каждого элемента матрицы C. 
+                    //Внешний цикл for итерируется по строкам матрицы A, внутренний цикл for итерируется по столбцам матрицы B, а цикл с переменной res итерируется по индексам элементов, которые участвуют в умножении.
+                    //Таким образом, при каждой итерации цикла res, происходит умножение соответствующих элементов из матриц A и B, и результат суммируется в элементе результирующей матрицы C.
+                    C[row][col] += A[row][res] * B[res][col];
+                }
+            }
+        }
+
+        float sumMax = 0, sumMin = 38;
+        float comMax = 0, comMin = 19;
+        float sumMoney = 0, sumCom = 0;
+        float sum = 0;
+        for (int i = 0; i < 3; i++) {
+            sumMoney += C[i][0];
+            sumCom += C[i][1];
+            sumMax = max(sumMax, C[i][0]);
+            sumMin = min(sumMin, C[i][0]);
+            comMax = max(comMax, C[i][1]);
+            comMin = min(comMin, C[i][1]);
+        }
+
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 2; col++) {
+                cout << C[row][col] << " ";
+            }
+            cout << "\n";
+        }
+        cout << "sumMax: " << sumMax << endl;
+        cout << "sumMin: " << sumMin << endl;
+        cout << "comMax: " << comMax << endl;
+        cout << "comMin: " << comMin << endl;
+        cout << "sumMoney: " << sumMoney << endl;
+        cout << "sumCom: " << sumCom << endl;
+        cout << "sum: " << sumMoney + sumCom << endl;
+
+        cout << "\n\nTask9\n\n";
+
+        string number;
+        int oldBase, newBase;
+
+        cout << "Enter the number: ";
+        cin >> number;
+
+        cout << "Enter the old base: ";
+        cin >> oldBase;
+
+        cout << "Enter the new base: ";
+        cin >> newBase;
+
+        string convertedNumber = convertNumber(number, oldBase, newBase);
+
+        cout << "Converted number: " << convertedNumber << endl;
     }
+    else if (hw == 5) {
+
+
+}
     else { cout << "There is no such HW"; }
 }
