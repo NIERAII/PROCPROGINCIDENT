@@ -153,6 +153,31 @@ string convertNumber(const string& number, int oldBase, int newBase) {
     return result;
 }
 
+int divison(int firstNumber, int secondNumber) { // НОД Делением
+    while (firstNumber != 0 and secondNumber != 0) {
+        if (firstNumber > secondNumber) {
+            firstNumber = firstNumber % secondNumber;
+        }
+        else {
+            secondNumber = secondNumber % firstNumber;
+        }
+    }
+    return firstNumber + secondNumber;
+}
+
+int subtruction(int firstNumber, int secondNumber) { // НОД Вычитанием
+    while (firstNumber != 0 and secondNumber != 0) {
+        if (firstNumber > secondNumber) {
+            firstNumber = firstNumber - secondNumber;
+        }
+        else {
+            secondNumber = secondNumber - firstNumber;
+        }
+    }
+    return firstNumber + secondNumber;
+}
+
+
 
 int main()
 {
@@ -599,8 +624,43 @@ int main()
         cout << "Converted number: " << convertedNumber << endl;
     }
     else if (hw == 5) {
-
-
-}
+        cout << "HW #5\n\n";
+        cout << "Task1\n\n";
+        int firstNumber;
+        cout << "Enter first number: " << endl; 
+        cin >> firstNumber;
+        int secondNumber;
+        cout << "Enter second number: " << endl; 
+        cin >> secondNumber;
+        int number;
+        cout << "Select method: " << endl;
+        cout << "1. Division\n2. Subtruction " << endl; 
+        cin >> number;
+        switch (number) {
+        case 1:
+            cout << divison(firstNumber, secondNumber) << endl;
+            break;
+        case 2:
+            cout << subtruction(firstNumber, secondNumber) << endl;
+            break;
+        }
+        cout << "\n\nTask1\n\n";
+        int lastNumber;
+        cout << "\n\nLast Number" << endl;
+        cin >> lastNumber;
+        bool flanderson;
+        for (int i = lastNumber; i > 1; --i) {
+            flanderson = true;
+            for (int j = pow(i, 0.5); j > 1; --j) {
+                if (i % j == 0) { 
+                    flanderson = false;
+                    break;
+                }
+            }
+            if (flanderson) {
+                cout << i << endl;
+            }
+        }
+    }
     else { cout << "There is no such HW"; }
 }
