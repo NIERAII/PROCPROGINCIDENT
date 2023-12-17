@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <Windows.h>
 #include <map>
+#include <vector>
+#include <sstream>
 
 using namespace std;
 float ln(float x) {
@@ -165,7 +167,7 @@ int divison(int firstNumber, int secondNumber) { // НОД Делением
     return firstNumber + secondNumber;
 }
 
-int subtruction(int firstNumber, int secondNumber) { // НОД Вычитанием
+int substruction(int firstNumber, int secondNumber) { // НОД Вычитанием
     while (firstNumber != 0 and secondNumber != 0) {
         if (firstNumber > secondNumber) {
             firstNumber = firstNumber - secondNumber;
@@ -177,6 +179,11 @@ int subtruction(int firstNumber, int secondNumber) { // НОД Вычитани�
     return firstNumber + secondNumber;
 }
 
+bool isConsonant(char c) {
+    // Здесь можно указать условия для определения согласных букв
+    // Например:
+    return isalpha(c) && !strchr("aeiouAEIOU", c);
+}
 
 
 int main()
@@ -627,24 +634,24 @@ int main()
         cout << "HW #5\n\n";
         cout << "Task1\n\n";
         int firstNumber;
-        cout << "Enter first number: " << endl; 
+        cout << "Enter first number: " << endl;
         cin >> firstNumber;
         int secondNumber;
-        cout << "Enter second number: " << endl; 
+        cout << "Enter second number: " << endl;
         cin >> secondNumber;
         int number;
         cout << "Select method: " << endl;
-        cout << "1. Division\n2. Subtruction " << endl; 
+        cout << "1. Division\n2. Substruction " << endl;
         cin >> number;
         switch (number) {
         case 1:
             cout << divison(firstNumber, secondNumber) << endl;
             break;
         case 2:
-            cout << subtruction(firstNumber, secondNumber) << endl;
+            cout << substruction(firstNumber, secondNumber) << endl;
             break;
         }
-        cout << "\n\nTask1\n\n";
+        cout << "\n\nTask2\n\n";
         int lastNumber;
         cout << "\n\nLast Number" << endl;
         cin >> lastNumber;
@@ -652,7 +659,7 @@ int main()
         for (int i = lastNumber; i > 1; --i) {
             flanderson = true;
             for (int j = pow(i, 0.5); j > 1; --j) {
-                if (i % j == 0) { 
+                if (i % j == 0) {
                     flanderson = false;
                     break;
                 }
@@ -661,6 +668,87 @@ int main()
                 cout << i << endl;
             }
         }
+        cout << "Task3.1" << endl << endl; // Статистическая обработка текстового файла: поиск наименее встречающейся согласной буквы.
+
+        ofstream file("text.txt");
+        if (file.is_open()) {
+            cout << "Input text: " << endl;
+            string tx;
+            cin.ignore();
+            getline(cin, tx);
+            file << tx << endl;
+            file.close();
+        }
+        else {
+            cout << "Can't open file." << endl;
+            return 1;
+        }
+
+        string filename = "text.txt";
+        ifstream file_stream(filename);
+        if (!file_stream) {
+            cout << "Can't open file." << endl;
+            return 1;
+        }
+
+        map<char, int> consonantCount;
+
+        char c;
+        while (file_stream.get(c)) {
+            if (isConsonant(c)) {
+                consonantCount[c]++;
+            }
+        }
+
+        vector<pair<char, int>> sortedConsonants;
+        for (const auto& entry : consonantCount) {
+            sortedConsonants.push_back(entry);
+        }
+
+        sort(sortedConsonants.begin(), sortedConsonants.end(),
+            [](const auto& a, const auto& b) {
+                return a.second < b.second;
+            });
+
+        if (!sortedConsonants.empty()) {
+            cout << "Consonant min: "
+                << sortedConsonants[0].first << endl;
+        }
+        else {
+            cout << "No consonants." << endl;
+        }
+
+        cout << "Task3.2" << endl << endl;
+
+        ifstream inputFile("text.txt");
+        ofstream outputFile("output.txt");
+
+        if (inputFile.is_open() && outputFile.is_open()) {
+            string line;
+            vector<string> words;
+
+            while (getline(inputFile, line)) {
+                stringstream ss(line);
+                string word;
+
+                while (ss >> word) {
+                    words.push_back(word);
+                }
+            }
+
+            for (const string& word : words) {
+                outputFile << word << ",";
+            }
+
+            inputFile.close();
+            outputFile.close();
+        }
+        else {
+            cout << "Err: can't open file." << endl;
+        }
+
+        
+
     }
     else { cout << "There is no such HW"; }
 }
