@@ -185,6 +185,65 @@ bool isConsonant(char c) {
     return isalpha(c) && !strchr("aeiouAEIOU", c);
 }
 
+void convertToColumns(const string& inputFilename, const string& outputFilename) {
+    // Открываем файлы для чтения и записи
+    ifstream inputFile(inputFilename);
+    ofstream outputFile(outputFilename);
+
+    if (inputFile.is_open() && outputFile.is_open()) {
+        string line;
+
+        // Читаем каждую строку из входного файла
+        while (getline(inputFile, line)) {
+            vector<string> words;
+            istringstream iss(line);
+            string word;
+
+            // Разделяем строку на слова
+            while (iss >> word) {
+                words.push_back(word);
+            }
+
+            // Записываем каждое слово входной строки в отдельную колонку в выходной файл
+            for (const auto& word : words) {
+                outputFile << word << "\n"; // Разделение :)
+            }
+
+            // Переходим на новую строку в выходном файле
+            outputFile << "\n";
+        }
+        
+        // Закрываем файлы
+        inputFile.close();
+        outputFile.close();
+
+        cout << "Done. Column:" << endl;
+    }
+    else {
+        cout << "Can't open files." << endl;
+    }
+}
+
+
+vector<int> convertBase(const vector<int>& arr, int base) {
+    vector<int> result;
+    int num = 0;
+    int power = 0;
+
+    for (int i = arr.size() - 1; i >= 0; i--) {
+        num += arr[i] * pow(7, power);
+        power++;
+    }
+
+    while (num > 0) {
+        result.push_back(num % base);
+        num = num / base;
+    }
+
+    reverse(result.begin(), result.end());
+
+    return result;
+}
 
 int main()
 {
@@ -720,34 +779,30 @@ int main()
 
         cout << "Task3.2" << endl << endl;
 
-        ifstream inputFile("text.txt");
-        ofstream outputFile("output.txt");
+        string inputFilename = "text.txt"; // Имя входного файла
+        string outputFilename = "output.txt"; // Имя выходного файла
+        string outcontent;
 
-        if (inputFile.is_open() && outputFile.is_open()) {
-            string line;
-            vector<string> words;
+        convertToColumns(inputFilename, outputFilename);
 
-            while (getline(inputFile, line)) {
-                stringstream ss(line);
-                string word;
-
-                while (ss >> word) {
-                    words.push_back(word);
-                }
+        ifstream output(outputFilename);
+        if (output.is_open())
+        {
+            while (getline(output, outcontent)) {
+                cout << outcontent << endl;
             }
-
-            for (const string& word : words) {
-                outputFile << word << ",";
-            }
-
-            inputFile.close();
-            outputFile.close();
-        }
-        else {
-            cout << "Err: can't open file." << endl;
         }
 
-        
+        cout << "\n\nTask4.1" << endl << endl;
+
+        vector<int> arr = { 1, 2, 3, 4, 5, 6, 7 }; // Замените F1, F2, ..., Fn на реальные значения из массива
+
+        vector<int> result = convertBase(arr, 3); // Замените З на требуемую систему счисления
+
+        for (int i : result) {
+            cout << i << " ";
+        }
+
 
     }
     else { cout << "There is no such HW"; }
