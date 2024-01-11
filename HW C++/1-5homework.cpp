@@ -212,7 +212,7 @@ void convertToColumns(const string& inputFilename, const string& outputFilename)
             // Переходим на новую строку в выходном файле
             outputFile << "\n";
         }
-        
+
         // Закрываем файлы
         inputFile.close();
         outputFile.close();
@@ -222,6 +222,13 @@ void convertToColumns(const string& inputFilename, const string& outputFilename)
     else {
         cout << "Can't open files." << endl;
     }
+}
+
+int factorial(int n) {
+    if (n <= 1)
+        return 1;
+    else
+        return n * factorial(n - 1);
 }
 
 
@@ -245,13 +252,64 @@ vector<int> convertBase(const vector<int>& arr, int base) {
     return result;
 }
 
+
+struct Country {
+    string name;
+    int goldMedals;
+    int silverMedals;
+    int bronzeMedals;
+    int totalPoints;
+};
+
+// Функция для сортировки стран по алфавиту
+bool compareCountries(const Country& c1, const Country& c2) {
+    return c1.name < c2.name;
+}
+
+struct Book {
+    string author;
+    string title;
+    int year;
+};
+
+void saveBookInfo(Book book) {
+    ofstream file("library.txt", ios::app);
+    if (file.is_open()) {
+        file << book.author << ", " << book.title << ", " << book.year << endl;
+        file.close();
+    }
+    else {
+        cout << "Unable to open the file." << endl;
+    }
+}
+
+void searchBookByTitle(string title) {
+    ifstream file("library.txt");
+    if (file.is_open()) {
+        string line;
+        while (getline(file, line)) {
+            size_t pos = line.find(title);
+            if (pos != string::npos) {
+                cout << "Book found: " << line << endl;
+                file.close();
+                return;
+            }
+        }
+        file.close();
+        cout << "Book not found." << endl;
+    }
+    else {
+        cout << "Unable to open the file." << endl;
+    }
+}
+
 int main()
 {
     int hw;
     cout << "CHOOSE HW\n";
     cin >> hw;
     if (hw == 39) {
-        cout << "HAHABINO JUST DEFEATED HIHIBINO. YAY!!! :)";
+        cout << "Leftover";
     }
     else if (hw == 1) {
         int a;
@@ -779,8 +837,8 @@ int main()
 
         cout << "Task3.2" << endl << endl;
 
-        string inputFilename = "text.txt"; // Имя входного файла
-        string outputFilename = "output.txt"; // Имя выходного файла
+        string inputFilename = "text.txt"; 
+        string outputFilename = "output.txt"; 
         string outcontent;
 
         convertToColumns(inputFilename, outputFilename);
@@ -795,15 +853,119 @@ int main()
 
         cout << "\n\nTask4.1" << endl << endl;
 
-        vector<int> arr = { 1, 2, 3, 4, 5, 6, 7 }; // Замените F1, F2, ..., Fn на реальные значения из массива
+        vector<int> arr = { 1, 2, 3, 4, 5, 6, 7 }; //
 
-        vector<int> result = convertBase(arr, 3); // Замените З на требуемую систему счисления
+        vector<int> result = convertBase(arr, 3); // 
 
         for (int i : result) {
             cout << i << " ";
         }
 
+        cout << "\n\nTask4.2" << endl << endl;
 
+        int n;
+        cout << "Int n: ";
+        cin >> n;
+
+        double sum = 0.0;
+        double current_sum = 0.0;
+
+        for (int i = 1; i <= n; i++) {
+            int factorial_n_minus_1 = factorial(n - 1);
+            int start_value = (i * (i - 1)) / 2 + 1;
+
+            for (int j = 0; j < i; j++) {
+                current_sum += sqrt(start_value + j);
+            }
+
+            sum += (double)factorial_n_minus_1 / current_sum;
+            current_sum = 0.0;
+        }
+
+        cout << "Result: " << sum << endl;
+
+        cout << "\nTask5.1" << endl << endl;
+
+        int numCountries;
+
+        cout << "Countries num: ";
+        cin >> numCountries;
+
+        vector<Country> countries;
+        countries.reserve(numCountries);
+
+        for (int i = 0; i < numCountries; i++) {
+            Country country;
+
+            cout << "Country " << i + 1 << ":" << endl;
+            cout << "Name: ";
+            cin >> country.name;
+            cout << "Gold med: ";
+            cin >> country.goldMedals;
+            cout << "Silver med: ";
+            cin >> country.silverMedals;
+            cout << "Bronze med: ";
+            cin >> country.bronzeMedals;
+
+            // Подсчет общего числа медалей и очков
+            int totalMedals = country.goldMedals + country.silverMedals + country.bronzeMedals;
+            country.totalPoints = (country.goldMedals * 7) + (country.silverMedals * 6) + (country.bronzeMedals * 5);
+
+            countries.push_back(country);
+        }
+
+        // Сортировка стран по алфавиту
+        sort(countries.begin(), countries.end(), compareCountries);
+
+        // Запись информации в файл
+        ofstream outputFile("olympicresults.txt");
+
+        if (outputFile.is_open()) {
+            for (const auto& country : countries) {
+                outputFile << country.name << " ";
+                outputFile << country.goldMedals << " ";
+                outputFile << country.silverMedals << " ";
+                outputFile << country.bronzeMedals << endl;
+            }
+            outputFile.close();
+            cout << "\nData saved in olympicresults.txt" << endl << endl;
+        }
+        else {
+            cout << "Err" << endl;
+        }
+
+        // Вывод информации на экран
+        cout << "Recap:" << endl;
+
+        for (const auto& country : countries) {
+            cout << "Country: " << country.name << endl;
+            cout << "Gold medals: " << country.goldMedals << endl;
+            cout << "Silver medals: " << country.silverMedals << endl;
+            cout << "Bronze medals: " << country.bronzeMedals << endl;
+            cout << "Total points: " << country.totalPoints << endl;
+            cout << endl;
+        }
+
+        cout << "\nTask5.2" << endl << endl;
+        Book book;
+        cout << "Enter book information:" << endl;
+        cout << "Author: ";
+        getline(cin, book.author);
+        cout << "Title: ";
+        getline(cin, book.title);
+        cout << "Year: ";
+        cin >> book.year;
+
+        saveBookInfo(book);
+
+        cin.ignore(); // Ignore the newline character from previous input
+        cout << "Enter a book title to search: ";
+        string searchTitle;
+        getline(cin, searchTitle);
+
+        searchBookByTitle(searchTitle);
+
+        
     }
     else { cout << "There is no such HW"; }
 }
