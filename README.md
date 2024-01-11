@@ -7,9 +7,10 @@ Also, those are just bare files, without the project itself, so yeah, deal with 
 **Feel free to steal it**  
 ```But at least change smth a lil bit```
 ## HW C++
-**IFELSEINCIDENT.cpp** - is where you can find first 4 hws  
-*Oh, btw, it was made entierly of "if else" because who the hell are voids, im cosplaying yanderedev lMAO.*
-  
+**1-5homework.cpp** - is where you can find my hw  
+*Oh, btw, it was made entierly of "if else" because who the hell are voids, im cosplaying yanderedev lMAO.*  
+
+**marbles.cpp** - task abt marbles wow
   
   
   
